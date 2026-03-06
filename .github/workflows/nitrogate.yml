@@ -28,6 +28,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NITROGATE_PR_NUMBER: ${{ github.event.pull_request.number }}
+          NITRO_SIGNING_KEY_B64: ${{ secrets.NITRO_SIGNING_KEY_B64 }}
 
       - uses: actions/upload-artifact@v4
         if: always()
