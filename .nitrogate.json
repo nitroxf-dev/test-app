@@ -1,0 +1,21 @@
+{
+  "mode": "gate",
+  "secrets": { "enabled": true },
+  "dependencies": {
+    "enabled": true,
+    "npmSupplyChain": {
+      "cooldownDays": 7,
+      "checkCompromised": true,
+      "checkTyposquatting": true,
+      "checkInstallScripts": true
+    }
+  },
+  "workflows": {
+    "enabled": true,
+    "requirePinnedActions": true,
+    "checkScriptInjection": true,
+    "checkPwnRequest": true
+  },
+  "licenses": { "enabled": true, "denied": ["AGPL-3.0", "GPL-3.0"] },
+  "attestation": { "format": "intoto-v1", "signing": "ed25519" }
+}
