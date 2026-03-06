@@ -1,0 +1,36 @@
+name: NitroGate Quality Gate
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Clone NitroGate
+        run: |
+          git clone https://github.com/nitrogate-dev/nitrogate.git /tmp/nitrogate
+          cd /tmp/nitrogate && go build -o /usr/local/bin/nitrogate ./cmd/nitrogate/
+
+      - name: Run NitroGate
+        run: nitrogate
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NITROGATE_PR_NUMBER: ${{ github.event.pull_request.number }}
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nitrogate-artifacts
+          path: nitrogate-artifacts/
